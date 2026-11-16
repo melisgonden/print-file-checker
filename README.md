@@ -58,4 +58,5 @@ In testing, a full-width background stripe was flagged as "content near the edge
 - PDF support (what most customers upload)
 - One-click fixes: extend background for bleed, shrink content into the safe zone, flatten transparency
 
-*Prototype by Melis Gönden.*
+*Prototype by Melis Gönden. Built with Claude as my coding partner.*
+
