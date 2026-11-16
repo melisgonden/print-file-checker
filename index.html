@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Print File Checker</title>
+    <link rel="stylesheet" href="style.css?v=1" />
+  </head>
+  <body>
+    <main>
+      <h1>Print File Checker</h1>
+      <p class="sub">
+        Upload a design and get a plain-language pre-flight report before it
+        goes to print. Everything runs in your browser; the file is never
+        uploaded anywhere.
+      </p>
+
+      <!-- Step 1: product and file -->
+      <section class="card">
+        <label class="lbl" for="product">1. What are you printing?</label>
+        <select id="product">
+          <option value="85x55">Business card · 85 × 55 mm</option>
+          <option value="105x148">Postcard A6 · 105 × 148 mm</option>
+          <option value="148x210">Flyer A5 · 148 × 210 mm</option>
+          <option value="210x297">Flyer A4 · 210 × 297 mm</option>
+          <option value="297x420">Poster A3 · 297 × 420 mm</option>
+        </select>
+
+        <label class="drop" id="drop">
+          <input type="file" id="file" accept="image/png,image/jpeg" />
+          <strong>2. Choose or drop your design</strong><br />
+          <span class="note"
+            >PNG or JPG. (PDF support is the next step on the roadmap.)</span
+          >
+        </label>
+
+        <div class="samples">
+          <span class="note">No file at hand? Try a sample:</span>
+          <button
+            class="btn ghost"
+            data-sample="samples/1_good_business_card.jpg"
+            data-product="85x55"
+          >
+            Good business card
+          </button>
+          <button
+            class="btn ghost"
+            data-sample="samples/2_bad_business_card.png"
+            data-product="85x55"
+          >
+            Bad business card
+          </button>
+          <button
+            class="btn ghost"
+            data-sample="samples/3_wrong_size.png"
+            data-product="85x55"
+          >
+            Wrong size
+          </button>
+          <span class="note" id="sampleNote"></span>
+        </div>
+      </section>
+
+      <!-- Step 2: results -->
+      <section class="card hidden" id="results">
+        <div id="verdict" class="verdict"></div>
+        <div id="checks"></div>
+        <div class="row" style="margin-top: 12px">
+          <button class="btn" id="copy">Copy report</button
+          ><span id="copied"></span>
+        </div>
+      </section>
+
+      <!-- AI layer: turns the measured checks + the image into advice a customer can act on -->
+      <section class="card ai hidden" id="aiCard">
+        <h2>AI review</h2>
+        <p class="note" style="margin-top: 0">
+          The checks above are measured by rules. The AI review also
+          <em>looks</em> at the design (small text, contrast, typos, cut-off
+          elements), puts the fixes in order and writes a message for the
+          customer.
+        </p>
+        <div id="keyBox" class="hidden">
+          <label class="lbl" for="apiKey">Anthropic API key</label>
+          <input
+            type="password"
+            id="apiKey"
+            placeholder="sk-ant-…"
+            autocomplete="off"
+          />
+          <p class="note" style="margin-top: -4px">
+            Only kept in this tab's memory and sent straight to Anthropic. Never
+            stored.
+          </p>
+        </div>
+        <button class="btn" id="aiBtn">Get AI review</button>
+        <div id="aiOut" style="margin-top: 14px"></div>
+      </section>
+
+      <section class="card hidden" id="previewCard">
+        <strong>Preview with print guides</strong>
+        <p class="note" style="margin-top: 2px">
+          Anything outside the red line is trimmed off. Keep text and logos
+          inside the green line.
+        </p>
+        <canvas id="preview"></canvas>
+        <div class="legend">
+          <span
+            ><span class="sw" style="border-color: #2b7bd8"></span>Bleed edge
+            (file edge)</span
+          >
+          <span
+            ><span class="sw" style="border-color: #d93025"></span>Trim line
+            (final size)</span
+          >
+          <span
+            ><span class="sw" style="border-color: #1e9e5a"></span>Safe
+            zone</span
+          >
+        </div>
+      </section>
+
+      <p class="note">
+        Rules used: 3 mm bleed on every side, 3 mm safe margin inside the trim
+        line, 300 DPI for sharp print (150 DPI absolute minimum).
+      </p>
+    </main>
+
+    <script src="script.js?v=1"></script>
+  </body>
+</html>
